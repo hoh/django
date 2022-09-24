@@ -43,16 +43,16 @@ class AdminSidebarTests(TestCase):
     def test_sidebar_not_on_index(self):
         response = self.client.get(reverse("test_with_sidebar:index"))
         self.assertContains(response, '<div class="main" id="main">')
-        self.assertNotContains(response, '<nav class="sticky" id="nav-sidebar">')
+        self.assertNotContains(response, '<nav class="sticky filterable-apps-table" id="nav-sidebar">')
 
     def test_sidebar_disabled(self):
         response = self.client.get(reverse("test_without_sidebar:index"))
-        self.assertNotContains(response, '<nav class="sticky" id="nav-sidebar">')
+        self.assertNotContains(response, '<nav class="sticky filterable-apps-table" id="nav-sidebar">')
 
     def test_sidebar_unauthenticated(self):
         self.client.logout()
         response = self.client.get(reverse("test_with_sidebar:login"))
-        self.assertNotContains(response, '<nav class="sticky" id="nav-sidebar">')
+        self.assertNotContains(response, '<nav class="sticky filterable-apps-table" id="nav-sidebar">')
 
     def test_sidebar_aria_current_page(self):
         url = reverse("test_with_sidebar:auth_user_changelist")
@@ -82,7 +82,7 @@ class AdminSidebarTests(TestCase):
     def test_sidebar_aria_current_page_missing_without_request_context_processor(self):
         url = reverse("test_with_sidebar:auth_user_changelist")
         response = self.client.get(url)
-        self.assertContains(response, '<nav class="sticky" id="nav-sidebar">')
+        self.assertContains(response, '<nav class="sticky filterable-apps-table" id="nav-sidebar">')
         # Does not include aria-current attribute.
         self.assertContains(response, '<a href="%s">Users</a>' % url)
         self.assertNotContains(response, "aria-current")
