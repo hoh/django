@@ -57,7 +57,9 @@ class AdminSidebarTests(TestCase):
     def test_sidebar_aria_current_page(self):
         url = reverse("test_with_sidebar:auth_user_changelist")
         response = self.client.get(url)
-        self.assertContains(response, '<nav class="sticky" id="nav-sidebar">')
+        self.assertContains(
+            response, '<nav class="sticky ' 'filterable-apps-table" id="nav-sidebar">'
+        )
         self.assertContains(
             response, '<a href="%s" aria-current="page">Users</a>' % url
         )
@@ -148,13 +150,13 @@ class SeleniumTests(AdminSeleniumTestCase):
         self.assertEqual(toggle_button.get_attribute("aria-label"), "Toggle navigation")
         for link in self.selenium.find_elements(By.CSS_SELECTOR, "#nav-sidebar a"):
             self.assertEqual(link.get_attribute("tabIndex"), "0")
-        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#nav-filter")
+        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#app-filter")
         self.assertEqual(filter_input.get_attribute("tabIndex"), "0")
         toggle_button.click()
         # Hidden sidebar is not reachable via keyboard navigation.
         for link in self.selenium.find_elements(By.CSS_SELECTOR, "#nav-sidebar a"):
             self.assertEqual(link.get_attribute("tabIndex"), "-1")
-        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#nav-filter")
+        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#app-filter")
         self.assertEqual(filter_input.get_attribute("tabIndex"), "-1")
         main_element = self.selenium.find_element(By.CSS_SELECTOR, "#main")
         self.assertNotIn("shifted", main_element.get_attribute("class").split())
@@ -192,12 +194,12 @@ class SeleniumTests(AdminSeleniumTestCase):
         # Hidden sidebar is not reachable via keyboard navigation.
         for link in self.selenium.find_elements(By.CSS_SELECTOR, "#nav-sidebar a"):
             self.assertEqual(link.get_attribute("tabIndex"), "-1")
-        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#nav-filter")
+        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#app-filter")
         self.assertEqual(filter_input.get_attribute("tabIndex"), "-1")
         toggle_button.click()
         for link in self.selenium.find_elements(By.CSS_SELECTOR, "#nav-sidebar a"):
             self.assertEqual(link.get_attribute("tabIndex"), "0")
-        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#nav-filter")
+        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#app-filter")
         self.assertEqual(filter_input.get_attribute("tabIndex"), "0")
         self.assertEqual(
             self.selenium.execute_script(
@@ -221,6 +223,6 @@ class SeleniumTests(AdminSeleniumTestCase):
             "return sessionStorage.getItem('django.admin.navSidebarFilterValue')"
         )
         self.assertIsNone(self.selenium.execute_script(filter_value_script))
-        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#nav-filter")
+        filter_input = self.selenium.find_element(By.CSS_SELECTOR, "#app-filter")
         filter_input.send_keys("users")
         self.assertEqual(self.selenium.execute_script(filter_value_script), "users")

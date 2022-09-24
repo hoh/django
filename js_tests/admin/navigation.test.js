@@ -6,8 +6,8 @@ QUnit.module('admin.sidebar: filter', {
         const $ = django.jQuery;
         $('#qunit-fixture').append($('#nav-sidebar-filter').text());
         this.navSidebar = $('#nav-sidebar');
-        this.navFilter = $('#nav-filter');
-        initSidebarQuickFilter();
+        this.navFilter = $('#app-filter');
+        initAppFilter();
     }
 });
 
