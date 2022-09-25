@@ -6,7 +6,7 @@ QUnit.module('admin.sidebar: filter', {
         const $ = django.jQuery;
         $('#qunit-fixture').append($('#nav-sidebar-filter').text());
         this.navSidebar = $('#nav-sidebar');
-        this.navFilter = $('#app-filter');
+        this.appFilter = $('#app-filter');
         initAppFilter();
     }
 });
@@ -14,11 +14,11 @@ QUnit.module('admin.sidebar: filter', {
 QUnit.test('filter by a model name', function(assert) {
     assert.equal(this.navSidebar.find('th[scope=row] a').length, 2);
 
-    this.navFilter.val('us'); // Matches 'users'.
-    this.navFilter[0].dispatchEvent(new Event('change'));
+    this.appFilter.val('us'); // Matches 'users'.
+    this.appFilter[0].dispatchEvent(new Event('change'));
     assert.equal(this.navSidebar.find('tr[class^="model-"]:visible').length, 1);
 
-    this.navFilter.val('nonexistent');
-    this.navFilter[0].dispatchEvent(new Event('change'));
+    this.appFilter.val('nonexistent');
+    this.appFilter[0].dispatchEvent(new Event('change'));
     assert.equal(this.navSidebar.find('tr[class^="model-"]:visible').length, 0);
 });
