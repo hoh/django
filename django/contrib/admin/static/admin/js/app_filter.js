@@ -1,8 +1,13 @@
 'use strict';
 {
     function initAppFilter() {
+        if (!document.getElementById('app-filter')) {
+            return;
+        }
+
         const options = [];
-        for (const filterableElement of document.getElementsByClassName('filterable-apps-table')) {
+        const filterableElements = document.getElementsByClassName('filterable-apps-table');
+        for (const filterableElement of filterableElements) {
             filterableElement.querySelectorAll('th[scope=row] a').forEach((container) => {
                 options.push({title: container.innerHTML, node: container});
             });
@@ -39,7 +44,6 @@
         }
 
         const nav = document.getElementById('app-filter');
-        console.log("NAVX", nav);
         nav.addEventListener('change', checkValue, false);
         nav.addEventListener('input', checkValue, false);
         nav.addEventListener('keyup', checkValue, false);
