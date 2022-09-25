@@ -39,6 +39,7 @@
         }
 
         const nav = document.getElementById('app-filter');
+        console.log("NAVX", nav);
         nav.addEventListener('change', checkValue, false);
         nav.addEventListener('input', checkValue, false);
         nav.addEventListener('keyup', checkValue, false);
